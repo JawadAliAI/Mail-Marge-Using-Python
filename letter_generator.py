@@ -1,13 +1,21 @@
+import os
+
 PLACEHOLDER = "[name]"
 
-with open("./Input/Names/invited_names.txt") as names_files:
-    names = names_files.readlines()
-    print(names)
+# Read names
+with open("./Input/Names/invited_names.txt") as names_file:
+    names = names_file.readlines()
 
-with open("./Input/letters/starting_letters.txt") as letter_files:
-    letter_contents = letter_files.read()
+# Ensure Output folder exists
+os.makedirs("./Output", exist_ok=True)
+
+# Read the starting letter template
+with open("./Input/Letters/starting_letters.txt") as letter_file:
+    letter_contents = letter_file.read()
     for name in names:
         stripped_name = name.strip()
         new_letter = letter_contents.replace(PLACEHOLDER, stripped_name)
-        with open("./Output/example.txt") as output:
-             output.write(new_letter)
+
+        # Create a personalized letter file for each name
+        with open(f"./Output/letter_for_{stripped_name}.txt", "w") as output_file:
+            output_file.write(new_letter)
